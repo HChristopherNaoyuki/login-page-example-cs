@@ -1,0 +1,58 @@
+﻿<Window x:Class="login_page_example_cs.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:login_page_example_cs"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid
+        Height="450"
+        Width="800"
+        >
+
+        <!-- LOGIN PAGE -->
+        <Grid
+            Height="450"
+            Width="800"
+            x:Name="login_page"
+            >
+
+            <Button
+                Height="30"
+                Width="200"
+                Content="open login page"
+                Margin="313,225,287,195"
+                Click="open_login"
+                >
+                
+            </Button>
+        </Grid>
+        
+        <!-- CHAT PAGE GRID -->
+        <Grid
+            Height="450"
+            Width="800"
+            x:Name="chats_page"
+            Visibility="Hidden"
+            >
+
+            <!-- WELCOME THE USER -->
+            <TextBlock
+                Height="30"
+                Width="200"
+                Text="Greetings! Welcome to the ChatBot."
+                />
+
+            <Button
+                Height="30"
+                Width="200"
+                Content="back"
+                Margin="0,200,0,0"
+                Click="back"
+                >
+                
+            </Button>
+        </Grid>
+    </Grid>
+</Window>
