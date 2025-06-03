@@ -1,4 +1,4 @@
-# Login Page Example in C#: Snapchat Clone – WPF Login and Chat Interface
+# Login Page Example in C#: Snapchat Clone
 
 This project is a desktop-based simulation of Snapchat’s login and chat interface, 
 built using Windows Presentation Foundation (WPF) in C#. It serves as a demonstration 
