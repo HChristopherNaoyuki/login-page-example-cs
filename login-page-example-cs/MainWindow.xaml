@@ -5,81 +5,176 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:login_page_example_cs"
         mc:Ignorable="d"
-        Title="Chat Application" Height="450" Width="800"
-        WindowStartupLocation="CenterScreen">
+        Title="Snapchat Clone" Height="700" Width="400"
+        WindowStyle="None" AllowsTransparency="True"
+        Background="Transparent" WindowStartupLocation="CenterScreen">
 
-    <Grid>
-        <!-- Using a single grid with two pages that toggle visibility -->
-
-        <!-- LOGIN PAGE -->
-        <Grid x:Name="login_page" Background="#FFE8E8E8">
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="300">
-                <!-- Application Title -->
-                <TextBlock Text="Welcome to ChatApp" 
-                           FontSize="24" 
-                           FontWeight="Bold" 
-                           Margin="0,0,0,30"
-                           HorizontalAlignment="Center"/>
-
-                <!-- Login Button -->
-                <Button Content="Login" 
-                        Height="40" 
-                        Background="#FF0078D7" 
-                        Foreground="White"
-                        FontWeight="Bold"
-                        Click="open_login"/>
-
-                <!-- Status Message (hidden by default) -->
-                <TextBlock x:Name="login_status" 
-                           Margin="0,10,0,0"
-                           Foreground="Red"
-                           Visibility="Collapsed"/>
-            </StackPanel>
-        </Grid>
-
-        <!-- CHAT PAGE -->
-        <Grid x:Name="chats_page" Background="White" Visibility="Collapsed">
+    <!-- Main Window Container with Snapchat Yellow Background -->
+    <Border CornerRadius="15" Background="#FFFCEE4B" BorderThickness="2" BorderBrush="Black">
+        <Grid>
+            <!-- Main Content Area -->
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <!-- Header -->
-            <Border Grid.Row="0" Background="#FF0078D7" Padding="10">
-                <TextBlock x:Name="welcome_message" 
-                           Text="Greetings!" 
-                           FontSize="18" 
-                           Foreground="White"
-                           FontWeight="Bold"/>
+            <!-- Header Bar -->
+            <Border Grid.Row="0" Background="Black" CornerRadius="13,13,0,0" Height="50">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Camera Button -->
+                    <Button Grid.Column="0" Content="📷" FontSize="20" Margin="10,0"
+                            Click="OpenCamera"/>
+
+                    <!-- Title -->
+                    <TextBlock Grid.Column="1" Text="Chat" Foreground="White" 
+                               FontWeight="Bold" FontSize="18" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                    <!-- Settings Button -->
+                    <Button Grid.Column="2" Content="⚙️" FontSize="16" Margin="10,0"
+                            Click="OpenSettings"/>
+                </Grid>
             </Border>
 
-            <!-- Chat Display Area -->
-            <ScrollViewer Grid.Row="1" Padding="10">
-                <StackPanel x:Name="chat_display">
-                    <!-- Chat messages will be added here programmatically -->
-                </StackPanel>
-            </ScrollViewer>
+            <!-- Chat Content Area -->
+            <Border Grid.Row="1" Background="White" CornerRadius="0">
+                <Grid>
+                    <!-- Login Screen (Initial View) -->
+                    <Grid x:Name="loginScreen" Visibility="Visible" Background="White">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="300">
+                            <TextBlock Text="SNAPCHAT CLONE" FontSize="24" FontWeight="Bold" 
+                                       Foreground="#FFFCEE4B" Margin="0,0,0,30" HorizontalAlignment="Center"/>
 
-            <!-- Input Area -->
-            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10">
-                <TextBox x:Name="message_input" 
-                         Width="300" 
-                         Height="40" 
-                         Margin="0,0,10,0"
-                         KeyDown="OnMessageKeyDown"/>
-                <Button Content="Send" 
-                        Width="80" 
-                        Height="40" 
-                        Background="#FF0078D7"
-                        Foreground="White"
-                        Click="SendMessage"/>
-                <Button Content="Logout" 
-                        Width="80" 
-                        Height="40" 
-                        Margin="10,0,0,0"
-                        Click="back"/>
-            </StackPanel>
+                            <!-- Username Input -->
+                            <TextBox x:Name="usernameInput" Margin="0,0,0,10" Foreground="#FF888888" Text="Username">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="TextBox">
+                                                    <Border Background="White" BorderBrush="#FFAAAAAA" BorderThickness="1" CornerRadius="5">
+                                                        <ScrollViewer x:Name="PART_ContentHost" Margin="5"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+
+                            <!-- Password Input -->
+                            <PasswordBox x:Name="passwordInput" Margin="0,0,0,20">
+                                <PasswordBox.Style>
+                                    <Style TargetType="PasswordBox">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="PasswordBox">
+                                                    <Border Background="White" BorderBrush="#FFAAAAAA" BorderThickness="1" CornerRadius="5">
+                                                        <ScrollViewer x:Name="PART_ContentHost" Margin="5"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </PasswordBox.Style>
+                            </PasswordBox>
+
+                            <Button Content="Login" Background="#FFFCEE4B" Foreground="Black"
+                                    FontWeight="Bold" Padding="10,5" Click="LoginUser"/>
+
+                            <TextBlock x:Name="loginStatus" Foreground="Red" Margin="0,10,0,0"
+                                      Visibility="Collapsed" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Chat Screen -->
+                    <Grid x:Name="chatScreen" Visibility="Collapsed">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Chat Messages -->
+                        <ScrollViewer x:Name="chatScrollViewer" Grid.Row="0" Padding="10">
+                            <ItemsControl x:Name="chatMessages">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border CornerRadius="15" Background="{Binding Background}" 
+                                                Padding="10" Margin="0,5" HorizontalAlignment="{Binding Alignment}">
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding Sender}" FontWeight="Bold"/>
+                                                <TextBlock Text="{Binding Message}" TextWrapping="Wrap"/>
+                                                <TextBlock Text="{Binding Timestamp}" FontSize="10" 
+                                                           Foreground="#555" HorizontalAlignment="Right"/>
+                                                <TextBlock Text="{Binding Status}" FontSize="9" 
+                                                           Foreground="#555" HorizontalAlignment="Right"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+
+                        <!-- Message Input -->
+                        <Border Grid.Row="1" Background="#EEE" Padding="10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBox x:Name="messageInput">
+                                    <TextBox.Style>
+                                        <Style TargetType="TextBox">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="TextBox">
+                                                        <Border Background="White" BorderBrush="#FFAAAAAA" BorderThickness="1" CornerRadius="5">
+                                                            <ScrollViewer x:Name="PART_ContentHost" Margin="5"/>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </TextBox.Style>
+                                    <TextBox.Text>
+                                        <Binding Path="MessageText" UpdateSourceTrigger="PropertyChanged" />
+                                    </TextBox.Text>
+                                </TextBox>
+
+                                <Button Grid.Column="1" Content="↑" Background="#FFFCEE4B" 
+                                    Foreground="Black" FontWeight="Bold" Padding="10"
+                                    Click="SendMessage"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <!-- Bottom Navigation -->
+            <Border Grid.Row="2" Background="Black" CornerRadius="0,0,13,13" Height="60">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Content="Chats" Background="Transparent" 
+                            Foreground="White" Click="ShowChats" FontWeight="Bold"/>
+                    <Button Grid.Column="1" Content="Stories" Background="Transparent"
+                            Foreground="White" Click="ShowStories"/>
+                    <Button Grid.Column="2" Content="Discover" Background="Transparent"
+                            Foreground="White" Click="ShowDiscover"/>
+                </Grid>
+            </Border>
         </Grid>
-    </Grid>
+    </Border>
 </Window>
